@@ -1,0 +1,4 @@
+virtualenv
+seaborn
+matplotlib
+pandas
