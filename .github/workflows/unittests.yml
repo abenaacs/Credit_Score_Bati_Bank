@@ -1,11 +1,22 @@
-name: Run Unit Tests
-on: [push]
+name: Run Tests and Linting
+on: [push, pull_request]
+
 jobs:
   test:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      - name: Install Dependencies
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.9"
+
+      - name: Install dependencies
         run: pip install -r requirements.txt
-      - name: Run Tests
+
+      - name: Run linting
+        run: pip install flake8 && flake8 scripts tests
+
+      - name: Run unit tests
         run: pytest tests/
