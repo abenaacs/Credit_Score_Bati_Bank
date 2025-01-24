@@ -1,128 +1,147 @@
-# Project: Credit Scoring Model
+# Project: Credit Risk Analysis
 
 ## Overview
 
-This repository contains the implementation of a Credit Scoring Model for Bati Bank in collaboration with an eCommerce platform. The goal is to enable a buy-now-pay-later service by developing a robust model that assesses customers' creditworthiness based on their transaction data.
+This project aims to analyze credit risk through data exploration, visualization, and modular Python scripts. By leveraging structured datasets, we compute essential metrics like default rates and use exploratory data analysis (EDA) techniques to gain insights into credit risk factors. The project structure supports scalability, reusability, and automation through CI/CD workflows and modular coding practices.
 
 ---
 
 ## Folder Structure
 
-Below is the directory structure and purpose of each file/folder:
-
 ```plaintext
-├── .vscode/                 # VS Code settings for linting and formatting
-│   └── settings.json
-├── .github/workflows/       # CI/CD pipeline files
-│   └── unittests.yml        # Automated unit testing workflow
-├── .gitignore               # Files and directories to exclude from version control
-├── requirements.txt         # Python dependencies
-├── README.md                # Main project documentation
-├── data/                    # Raw and processed datasets
-├── notebooks/               # Jupyter notebooks for EDA and visualization
-│   ├── init.py
-│   ├── README.md
-│   └── eda.ipynb            # Exploratory Data Analysis notebook
-├── scripts/                 # Modular scripts for reusable code
-│   ├── init.py
-│   ├── credit_risk.py       # Credit risk calculation logic
-│   ├── eda.py               # EDA functions
-│   └── README.md
-├── tests/                   # Unit tests for scripts
-│   ├── init.py
-│   └── test_eda.py          # Unit tests for EDA
+📂 .vscode/              # VS Code settings for linting and formatting
+📂 .github/workflows/    # CI/CD workflows for automated testing and linting
+📂 data/                 # Stores datasets (e.g., raw_data.csv, processed_data.csv)
+📂 notebooks/            # Jupyter notebooks for EDA and visualization
+📂 tests/                # Unit tests for the project
+📂 scripts/              # Modular Python scripts for analysis and implementation
+README.md               # Project documentation
+requirements.txt        # List of dependencies
+.gitignore              # Specifies files to exclude from version control
 ```
 
 ---
 
-## Task 1: Understanding Credit Risk
+## Features
 
-### **Summary**
-
-Credit scoring involves assigning a quantitative measure to borrowers to assess their likelihood of default. The Basel II Capital Accord provides guidelines on factors that financial institutions should consider when starting a new loan procedure.
-
-Key aspects include:
-
-- Defining a proxy variable to categorize users as high-risk (bad) or low-risk (good).
-- Selecting observable features that correlate with default behavior.
-- Estimating risk probability and assigning a credit score to customers.
-
-References used:
-
-1. [Credit Risk Explained](https://www.risk-officer.com/Credit_Risk.htm)
-2. [Alternative Credit Scoring](https://www.hkma.gov.hk/media/eng/doc/key-functions/financial-infrastructure/alternative_credit_scoring.pdf)
-3. [Developing a Credit Risk Model](https://towardsdatascience.com/how-to-develop-a-credit-risk-model-and-scorecard-91335fc01f03)
-
-Key deliverable: `scripts/credit_risk.py` for implementing credit risk calculations.
+- **Data Preprocessing**: Handle missing values, compute essential statistics, and clean datasets.
+- **Exploratory Data Analysis (EDA)**: Visualize distributions, correlations, and detect patterns.
+- **Credit Risk Metrics**: Compute default rates and other credit risk-related metrics.
+- **Reusable Modules**: Encapsulate functionality into reusable scripts.
+- **CI/CD Integration**: Automate testing and linting using GitHub Actions.
 
 ---
 
-## Task 2: Exploratory Data Analysis (EDA)
+## Installation
 
-### **Steps Performed**
+Follow these steps to set up the project:
 
-1. **Data Overview**:
+### Prerequisites
 
-   - Displayed the structure of the dataset (e.g., number of rows/columns, data types).
-   - Generated summary statistics (mean, median, variance, etc.).
+- Python 3.8 or higher
+- Git
 
-2. **Visualizations**:
-
-   - Histograms for numerical features (e.g., `Amount` distribution).
-   - Correlation heatmap to identify relationships between variables.
-   - Box plots to detect and analyze outliers.
-
-3. **Handling Missing Values**:
-
-   - Identified missing data and imputed values using median strategy.
-
-4. **Outlier Detection**:
-   - Visualized outliers using box plots.
-   - Logged the impact of removing/keeping outliers.
-
-Key deliverable: `notebooks/eda.ipynb` for the EDA process.
-
----
-
-## How to Use
-
-### **Setup**
+### Setup Instructions
 
 1. Clone the repository:
    ```bash
-   git clone <repository_url>
-   cd credit-scoring-model
+   git clone https://github.com/abenaacs/Credit_Score_Bati_Bank.git
+   cd Credit_Score_Bati_Bank
    ```
-2. Install dependencies:
+2. Create a virtual environment:
+   ```bash
+   python -m venv venv
+   ```
+3. Activate the virtual environment:
+   - On macOS/Linux:
+     ```bash
+     source venv/bin/activate
+     ```
+   - On Windows:
+     ```bash
+     venv\Scripts\activate
+     ```
+4. Install the required dependencies:
    ```bash
    pip install -r requirements.txt
    ```
 
-### **Run Scripts**
+---
 
-- **Credit Risk Calculation**:
+## Usage
+
+### Running Scripts
+
+- To calculate credit risk metrics, run:
+
   ```bash
   python scripts/credit_risk.py
   ```
-- **Unit Tests**:
-  ```bash
-  pytest tests/
+
+- To use the EDA utilities, import them into your custom scripts or notebooks:
+  ```python
+  from scripts.eda import plot_distribution
   ```
 
-### **Notebooks**
+### Jupyter Notebooks
 
-- Open and run Jupyter notebooks in the `notebooks/` directory for EDA and visualization.
+- Open and execute the `notebooks/eda.ipynb` file for interactive exploratory data analysis:
+  ```bash
+  jupyter notebook notebooks/eda.ipynb
+  ```
+
+---
+
+## CI/CD Automation
+
+The project uses GitHub Actions to automate testing and linting. The workflow is defined in `.github/workflows/unittests.yml`.
+
+### Workflow Details
+
+- **Trigger**: Runs on every `push` or `pull_request` event.
+- **Steps**:
+  1. Check out the repository.
+  2. Set up Python.
+  3. Install dependencies.
+  4. Run linting with `flake8`.
+  5. Execute unit tests with `pytest`.
 
 ---
 
 ## Contributing
 
-1. Fork the repository and create a feature branch.
-2. Make your changes and submit a pull request.
-3. Ensure that your code passes all unit tests before submission.
+We welcome contributions! Follow these steps to contribute:
+
+1. Fork the repository.
+2. Create a new branch for your feature/fix:
+   ```bash
+   git checkout -b feature-name
+   ```
+3. Make your changes and commit them:
+   ```bash
+   git commit -m "Add feature description"
+   ```
+4. Push the changes to your fork:
+   ```bash
+   git push origin feature-name
+   ```
+5. Submit a pull request.
 
 ---
 
 ## License
 
-This project is licensed under the MIT License. See the LICENSE file for details.
+This project is licensed under the [MIT License](LICENSE).
+
+---
+
+## Acknowledgments
+
+- Inspired by industry-standard credit risk analysis practices.
+- Thanks to the open-source community for providing essential libraries like pandas, numpy, and matplotlib.
+
+---
+
+## Contact
+
+For questions or suggestions, please contact [your-email@example.com].
