@@ -1,37 +1,51 @@
-### Purpose
+## Purpose
 
-The `scripts` directory contains Python scripts for reusable code modules related to the Credit Scoring Model project.
+The `scripts` directory contains Python scripts for data preprocessing, model training, evaluation, and feature engineering for the Credit Risk and Fraud Detection project.
 
-### Files
+## Files
 
-- `credit_risk.py`: Implements logic for credit risk calculation, including defining proxy variables, estimating risk probabilities, and assigning credit scores.
-- `eda.py`: Contains functions for conducting EDA, such as generating summary statistics, plotting distributions, and handling missing values.
+- `preprocessing.py`: Handles data cleaning, feature engineering, and dataset preparation.
+- `model_training.py`: Implements fraud detection model training, hyperparameter tuning, and evaluation.
+- `utils.py`: Contains helper functions for common operations like file loading, logging, and transformations.
 
-### How to Use
+---
 
-1. Ensure all dependencies are installed by running:
+## Usage
+
+### Running Individual Scripts
+
+1. **Data Preprocessing**
+
    ```bash
-   pip install -r requirements.txt
+   python scripts/preprocessing.py
    ```
-2. Run individual scripts from the command line or import them as modules in other scripts or notebooks.
 
-Example usage of `eda.py`:
+2. **Model Training**
 
-```python
-from scripts.eda import generate_summary_stats
+   ```bash
+   python scripts/model_training.py
+   ```
 
-# Load your dataset
-import pandas as pd
-data = pd.read_csv('data/dataset.csv')
+3. **Using Utility Functions**  
+   Import utility functions into other scripts or notebooks:
 
-# Generate summary statistics
-stats = generate_summary_stats(data)
-print(stats)
-```
+   ```python
+   from scripts.utils import load_data
 
-### **Run Scripts**
+   data = load_data("data/raw/raw_data.csv")
+   ```
 
-- **Credit Risk Calculation**:
-  ```bash
-  python scripts/credit_risk.py
-  ```
+---
+
+### How to Modify
+
+- Add new helper functions in `utils.py` to keep the code modular and reusable.
+- Ensure script-specific logic resides in `preprocessing.py` or `model_training.py` to maintain separation of concerns.
+
+---
+
+### Testing
+
+- Unit tests for these scripts are located in the `tests` directory and can be run using `pytest`.
+
+---
