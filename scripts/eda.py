@@ -1,35 +1,32 @@
+import os
 import pandas as pd
 import numpy as np
 import seaborn as sns
 import matplotlib.pyplot as plt
 import missingno as msno
 from pathlib import Path
+from utils import load_csv, save_csv  # Import utility functions
 
 # Set up global plot settings
 sns.set(style="whitegrid", palette="muted")
 plt.rc("figure", figsize=(12, 6))
 
 # Paths to data files
-definitions_path = Path("data/raw/Xente_Variable_definintions.csv")
-data_path = Path("data/raw/data.csv")
+definitions_path = Path("./data/raw/Xente_Variable_Definitions.csv")
+data_path = Path("./data/raw/data.csv")
+visualizations_dir = Path("./visualizations")
+
+# Ensure the visualizations directory exists
+os.makedirs(visualizations_dir, exist_ok=True)
 
 
-# Load datasets with error handling
-def load_data(definitions_path, data_path):
-    try:
-        definitions = pd.read_csv(definitions_path)
-        data = pd.read_csv(data_path)
-        print("Datasets loaded successfully.")
-        return definitions, data
-    except FileNotFoundError as e:
-        print(f"File not found: {e}")
-        return None, None
-    except Exception as e:
-        print(f"An error occurred: {e}")
-        return None, None
-
-
-definitions, data = load_data(definitions_path, data_path)
+# Save plot to the visualizations folder
+def save_plot(plot_name):
+    """Save the current plot to the visualizations folder."""
+    plot_path = visualizations_dir / f"{plot_name}.png"
+    plt.savefig(plot_path, bbox_inches="tight")
+    plt.close()
+    print(f"Plot saved: {plot_path}")
 
 
 # Display dataset overview
@@ -44,6 +41,7 @@ def dataset_overview(data, definitions):
     print(definitions)
 
 
+# Display summary statistics
 def display_summary_statistics(data):
     print("\nSummary Statistics:")
     print(data.describe())
@@ -56,7 +54,7 @@ def analyze_missing_values(data):
     print(missing_values[missing_values > 0])
     msno.heatmap(data)
     plt.title("Missing Values Heatmap")
-    plt.show()
+    save_plot("missing_values_heatmap")
 
 
 # Distribution of numerical features
@@ -66,7 +64,7 @@ def plot_numerical_distributions(data, numerical_columns):
         plt.title(f"Distribution of {column}")
         plt.xlabel(column)
         plt.ylabel("Frequency")
-        plt.show()
+        save_plot(f"numerical_distribution_{column}")
 
 
 # Distribution of categorical features
@@ -78,7 +76,7 @@ def plot_categorical_distributions(data, categorical_columns):
         plt.title(f"Distribution of {column}")
         plt.xlabel("Count")
         plt.ylabel(column)
-        plt.show()
+        save_plot(f"categorical_distribution_{column}")
 
 
 # Correlation analysis
@@ -86,7 +84,7 @@ def correlation_analysis(data, numerical_columns):
     correlation_matrix = data[numerical_columns].corr()
     sns.heatmap(correlation_matrix, annot=True, cmap="coolwarm", fmt=".2f")
     plt.title("Correlation Matrix")
-    plt.show()
+    save_plot("correlation_matrix")
 
 
 # Outlier detection
@@ -94,28 +92,34 @@ def detect_outliers(data, numerical_columns):
     for column in numerical_columns:
         sns.boxplot(x=data[column], color="orange")
         plt.title(f"Boxplot for {column}")
-        plt.show()
+        save_plot(f"outlier_detection_{column}")
 
 
-if definitions is not None and data is not None:
-    dataset_overview(data, definitions)
-    display_summary_statistics(data)
+# Main execution
+if __name__ == "__main__":
+    # Load datasets using the utility function
+    definitions = load_csv(definitions_path)
+    data = load_csv(data_path)
 
-    # Identify numerical and categorical columns
-    numerical_columns = data.select_dtypes(include=[np.number]).columns.tolist()
-    categorical_columns = data.select_dtypes(exclude=[np.number]).columns.tolist()
+    if definitions is not None and data is not None:
+        dataset_overview(data, definitions)
+        display_summary_statistics(data)
 
-    # Missing value analysis
-    analyze_missing_values(data)
+        # Identify numerical and categorical columns
+        numerical_columns = data.select_dtypes(include=[np.number]).columns.tolist()
+        categorical_columns = data.select_dtypes(exclude=[np.number]).columns.tolist()
 
-    # Numerical feature distributions
-    plot_numerical_distributions(data, numerical_columns)
+        # Missing value analysis
+        analyze_missing_values(data)
 
-    # Categorical feature distributions
-    plot_categorical_distributions(data, categorical_columns)
+        # Numerical feature distributions
+        plot_numerical_distributions(data, numerical_columns)
 
-    # Correlation analysis
-    correlation_analysis(data, numerical_columns)
+        # Categorical feature distributions
+        plot_categorical_distributions(data, categorical_columns)
 
-    # Outlier detection
-    detect_outliers(data, numerical_columns)
+        # Correlation analysis
+        correlation_analysis(data, numerical_columns)
+
+        # Outlier detection
+        detect_outliers(data, numerical_columns)
