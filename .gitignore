@@ -4,5 +4,7 @@ __pycache__/
 *.py[cod]
 .venv/
 *.egg-info/
-main.py
 data
+scripts/credit_risk.py
+scripts/config.py
+models/

@@ -1,23 +1,24 @@
-# Project: Credit Risk Analysis
+# Project: Credit Risk Analysis with Fraud Detection
 
 ## Overview
 
-This project aims to analyze credit risk through data exploration, visualization, and modular Python scripts. By leveraging structured datasets, we compute essential metrics like default rates and use exploratory data analysis (EDA) techniques to gain insights into credit risk factors. The project structure supports scalability, reusability, and automation through CI/CD workflows and modular coding practices.
+This project focuses on credit risk analysis combined with fraud detection using structured datasets. The implementation leverages Exploratory Data Analysis (EDA), feature engineering, machine learning models, and API services for prediction. The modular design ensures scalability, reusability, and alignment with CI/CD workflows for better automation and maintainability.
 
 ---
 
 ## Folder Structure
 
 ```plaintext
-📂 .vscode/              # VS Code settings for linting and formatting
-📂 .github/workflows/    # CI/CD workflows for automated testing and linting
-📂 data/                 # Stores datasets (e.g., raw_data.csv, processed_data.csv)
-📂 notebooks/            # Jupyter notebooks for EDA and visualization
-📂 tests/                # Unit tests for the project
-📂 scripts/              # Modular Python scripts for analysis and implementation
-README.md               # Project documentation
-requirements.txt        # List of dependencies
-.gitignore              # Specifies files to exclude from version control
+📂 .github/workflows/       # CI/CD workflows for automated testing and linting
+📂 config/                  # Configuration files for settings and constants
+📂 data/                    # Stores datasets (e.g., raw and processed CSV files)
+📂 notebooks/               # Jupyter notebooks for EDA, visualization, and prototyping
+📂 scripts/                 # Modular Python scripts for analysis and implementation
+📂 tests/                   # Unit and integration tests for different project modules
+📂 service/                 # FastAPI service for fraud prediction and model serving
+README.md                   # Project documentation
+requirements.txt            # List of dependencies
+.gitignore                  # Specifies files to exclude from version control
 ```
 
 ---
@@ -25,16 +26,15 @@ requirements.txt        # List of dependencies
 ## Features
 
 - **Data Preprocessing**: Handle missing values, compute essential statistics, and clean datasets.
-- **Exploratory Data Analysis (EDA)**: Visualize distributions, correlations, and detect patterns.
-- **Credit Risk Metrics**: Compute default rates and other credit risk-related metrics.
-- **Reusable Modules**: Encapsulate functionality into reusable scripts.
-- **CI/CD Integration**: Automate testing and linting using GitHub Actions.
+- **Exploratory Data Analysis (EDA)**: Visualize data distributions, correlations, and patterns.
+- **Fraud Detection Model**: Train models for fraud prediction, optimize hyperparameters, and evaluate performance.
+- **API Service**: Provide endpoints for fraud prediction and feature importance extraction.
+- **CI/CD Automation**: Automate testing, linting, and deployments using GitHub Actions.
+- **Modular Design**: Encapsulate logic into reusable and testable modules.
 
 ---
 
 ## Installation
-
-Follow these steps to set up the project:
 
 ### Prerequisites
 
@@ -44,15 +44,20 @@ Follow these steps to set up the project:
 ### Setup Instructions
 
 1. Clone the repository:
+
    ```bash
    git clone https://github.com/abenaacs/Credit_Score_Bati_Bank.git
    cd Credit_Score_Bati_Bank
    ```
+
 2. Create a virtual environment:
+
    ```bash
    python -m venv venv
    ```
+
 3. Activate the virtual environment:
+
    - On macOS/Linux:
      ```bash
      source venv/bin/activate
@@ -61,7 +66,8 @@ Follow these steps to set up the project:
      ```bash
      venv\Scripts\activate
      ```
-4. Install the required dependencies:
+
+4. Install dependencies:
    ```bash
    pip install -r requirements.txt
    ```
@@ -72,33 +78,42 @@ Follow these steps to set up the project:
 
 ### Running Scripts
 
-- To calculate credit risk metrics, run:
+- **Data Preprocessing and Feature Engineering**:
 
   ```bash
-  python scripts/credit_risk.py
+  python scripts/preprocessing.py
   ```
 
-- To use the EDA utilities, import them into your custom scripts or notebooks:
-  ```python
-  from scripts.eda import plot_distribution
-  ```
-
-### Jupyter Notebooks
-
-- Open and execute the `notebooks/eda.ipynb` file for interactive exploratory data analysis:
+- **Fraud Detection Model Training and Evaluation**:
   ```bash
-  jupyter notebook notebooks/eda.ipynb
+  python scripts/model_training.py
   ```
+
+### Running the FastAPI Service
+
+1. Navigate to the `service` directory:
+
+   ```bash
+   cd service
+   ```
+
+2. Start the FastAPI server:
+
+   ```bash
+   uvicorn service:app --reload
+   ```
+
+3. Visit `http://127.0.0.1:8000/docs` for API documentation.
 
 ---
 
 ## CI/CD Automation
 
-The project uses GitHub Actions to automate testing and linting. The workflow is defined in `.github/workflows/unittests.yml`.
+The project uses GitHub Actions to automate testing, linting, and deployments. The workflow configuration is available in `.github/workflows/unittests.yml`.
 
 ### Workflow Details
 
-- **Trigger**: Runs on every `push` or `pull_request` event.
+- **Trigger**: Runs on every `push` or `pull_request`.
 - **Steps**:
   1. Check out the repository.
   2. Set up Python.
@@ -113,15 +128,15 @@ The project uses GitHub Actions to automate testing and linting. The workflow is
 We welcome contributions! Follow these steps to contribute:
 
 1. Fork the repository.
-2. Create a new branch for your feature/fix:
+2. Create a new branch:
    ```bash
    git checkout -b feature-name
    ```
-3. Make your changes and commit them:
+3. Commit your changes:
    ```bash
    git commit -m "Add feature description"
    ```
-4. Push the changes to your fork:
+4. Push the changes:
    ```bash
    git push origin feature-name
    ```
@@ -137,11 +152,4 @@ This project is licensed under the [MIT License](LICENSE).
 
 ## Acknowledgments
 
-- Inspired by industry-standard credit risk analysis practices.
-- Thanks to the open-source community for providing essential libraries like pandas, numpy, and matplotlib.
-
----
-
-## Contact
-
-For questions or suggestions, please contact [your-email@example.com].
+- Thanks to open-source contributors and the FastAPI, pandas, and scikit-learn communities.
